@@ -3,8 +3,9 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	id: z.string().describe('Calendar ID to subscribe to (usually an email address)'),
 	colorId: z.string().optional().describe('Color ID from colors.get'),
 	backgroundColor: z.string().optional().describe('Background color in hex (#0088aa)'),
@@ -12,7 +13,7 @@ const inputSchema = {
 	hidden: z.boolean().optional().describe('Whether to hide from the calendar list'),
 	selected: z.boolean().optional().describe('Whether to show events in the UI'),
 	summaryOverride: z.string().optional().describe('Custom name for the calendar'),
-};
+}, {});
 
 export function registerCalendarlistInsert(server: McpServer, config: Config): void {
 	server.registerTool(

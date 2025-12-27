@@ -3,13 +3,14 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().describe('Source calendar ID'),
 	eventId: z.string().describe('Event ID to move'),
 	destination: z.string().describe('Destination calendar ID'),
 	sendUpdates: z.enum(['all', 'externalOnly', 'none']).default('all').describe('Who to send notifications to'),
-};
+}, {});
 
 export function registerEventMove(server: McpServer, config: Config): void {
 	server.registerTool(

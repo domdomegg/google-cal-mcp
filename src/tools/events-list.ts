@@ -3,8 +3,9 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().default('primary').describe('Calendar ID (use "primary" for the main calendar, or an email address for shared calendars)'),
 	timeMin: z.string().optional().describe('Lower bound for event end time (RFC3339, e.g., "2025-01-01T00:00:00Z")'),
 	timeMax: z.string().optional().describe('Upper bound for event start time (RFC3339)'),
@@ -14,7 +15,7 @@ const inputSchema = {
 	singleEvents: z.boolean().default(true).describe('Expand recurring events into individual instances'),
 	orderBy: z.enum(['startTime', 'updated']).default('startTime').describe('Order of events (startTime requires singleEvents=true)'),
 	showDeleted: z.boolean().default(false).describe('Include deleted events'),
-};
+}, {});
 
 export function registerEventsList(server: McpServer, config: Config): void {
 	server.registerTool(

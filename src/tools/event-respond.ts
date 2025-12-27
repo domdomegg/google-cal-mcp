@@ -3,13 +3,14 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().default('primary').describe('Calendar ID'),
 	eventId: z.string().describe('Event ID to respond to'),
 	response: z.enum(['accepted', 'declined', 'tentative']).describe('Your response to the event invitation'),
 	sendUpdates: z.enum(['all', 'externalOnly', 'none']).default('all').describe('Who to send notifications to'),
-};
+}, {});
 
 export function registerEventRespond(server: McpServer, config: Config): void {
 	server.registerTool(

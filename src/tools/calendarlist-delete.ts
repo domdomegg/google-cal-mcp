@@ -3,10 +3,11 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {textResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().describe('Calendar ID to unsubscribe from'),
-};
+}, {});
 
 export function registerCalendarlistDelete(server: McpServer, config: Config): void {
 	server.registerTool(
