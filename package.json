@@ -1,6 +1,6 @@
 {
   "name": "google-cal-mcp",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "MCP server for Google Calendar - list, create, update, and manage calendar events",
   "license": "MIT",
   "author": "Adam Jones (domdomegg)",
