@@ -3,12 +3,13 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	minAccessRole: z.enum(['freeBusyReader', 'reader', 'writer', 'owner']).optional().describe('Minimum access role for calendars to return'),
 	showDeleted: z.boolean().default(false).describe('Include deleted calendars'),
 	showHidden: z.boolean().default(false).describe('Include hidden calendars'),
-};
+}, {});
 
 export function registerCalendarsList(server: McpServer, config: Config): void {
 	server.registerTool(

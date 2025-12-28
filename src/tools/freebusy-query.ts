@@ -3,13 +3,14 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	timeMin: z.string().describe('Start of the interval (RFC3339)'),
 	timeMax: z.string().describe('End of the interval (RFC3339)'),
 	timeZone: z.string().optional().describe('Timezone for the response'),
 	calendarIds: z.array(z.string()).default(['primary']).describe('Calendar IDs to check (defaults to primary)'),
-};
+}, {});
 
 export function registerFreebusyQuery(server: McpServer, config: Config): void {
 	server.registerTool(
@@ -27,7 +28,7 @@ export function registerFreebusyQuery(server: McpServer, config: Config): void {
 				timeMin,
 				timeMax,
 				timeZone,
-				items: calendarIds.map((id) => ({id})),
+				items: (calendarIds as string[]).map((id) => ({id})),
 			};
 
 			const result = await makeCalendarApiCall('POST', '/freeBusy', config.token, body);

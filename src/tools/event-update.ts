@@ -3,6 +3,7 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
 const attendeeSchema = z.object({
 	email: z.string().describe('Attendee email address'),
@@ -11,7 +12,7 @@ const attendeeSchema = z.object({
 	responseStatus: z.enum(['needsAction', 'declined', 'tentative', 'accepted']).optional(),
 });
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().default('primary').describe('Calendar ID'),
 	eventId: z.string().describe('Event ID to update'),
 	summary: z.string().optional().describe('New event title'),
@@ -29,7 +30,7 @@ const inputSchema = {
 	}).optional().describe('New end time'),
 	attendees: z.array(attendeeSchema).optional().describe('Updated attendee list'),
 	sendUpdates: z.enum(['all', 'externalOnly', 'none']).default('all').describe('Who to send notifications to'),
-};
+}, {});
 
 export function registerEventUpdate(server: McpServer, config: Config): void {
 	server.registerTool(

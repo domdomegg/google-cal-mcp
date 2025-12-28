@@ -3,8 +3,9 @@ import type {McpServer} from '@modelcontextprotocol/sdk/server/mcp.js';
 import type {Config} from './types.js';
 import {makeCalendarApiCall} from '../utils/calendar-api.js';
 import {jsonResult} from '../utils/response.js';
+import {strictSchemaWithAliases} from '../utils/schema.js';
 
-const inputSchema = {
+const inputSchema = strictSchemaWithAliases({
 	calendarId: z.string().describe('Calendar ID to update'),
 	colorId: z.string().optional().describe('Color ID from colors.get'),
 	backgroundColor: z.string().optional().describe('Background color in hex (#0088aa)'),
@@ -16,7 +17,7 @@ const inputSchema = {
 		method: z.enum(['email', 'popup']),
 		minutes: z.number(),
 	})).optional().describe('Default reminders for events'),
-};
+}, {});
 
 export function registerCalendarlistUpdate(server: McpServer, config: Config): void {
 	server.registerTool(
