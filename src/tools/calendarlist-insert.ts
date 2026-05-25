@@ -22,6 +22,11 @@ export function registerCalendarlistInsert(server: McpServer, config: Config): v
 			title: 'Subscribe to calendar',
 			description: 'Add an existing calendar to the user\'s calendar list. Use this to subscribe to shared calendars.',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: true,
+			},
 		},
 		async ({id, colorId, backgroundColor, foregroundColor, hidden, selected, summaryOverride}) => {
 			const body: Record<string, unknown> = {id};

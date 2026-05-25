@@ -16,6 +16,11 @@ export function registerCalendarlistDelete(server: McpServer, config: Config): v
 			title: 'Unsubscribe from calendar',
 			description: 'Remove a calendar from the user\'s calendar list. This unsubscribes from the calendar but does not delete it.',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: true,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId}) => {
 			await makeCalendarApiCall(

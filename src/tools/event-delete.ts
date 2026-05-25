@@ -18,6 +18,11 @@ export function registerEventDelete(server: McpServer, config: Config): void {
 			title: 'Delete event',
 			description: 'Delete a calendar event',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: true,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId, eventId, sendUpdates}) => {
 			const params = new URLSearchParams();

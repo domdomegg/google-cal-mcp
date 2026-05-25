@@ -39,6 +39,11 @@ export function registerEventCreate(server: McpServer, config: Config): void {
 			title: 'Create event',
 			description: 'Create a new calendar event. Can include attendees and optionally create a Google Meet link.',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: false,
+			},
 		},
 		async ({calendarId, summary, description, location, start, end, attendees, sendUpdates, conferenceDataVersion}) => {
 			const params = new URLSearchParams();
