@@ -39,6 +39,11 @@ export function registerEventUpdate(server: McpServer, config: Config): void {
 			title: 'Update event',
 			description: 'Update an existing calendar event. Only specified fields will be changed.',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: true,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId, eventId, summary, description, location, start, end, attendees, sendUpdates}) => {
 			const params = new URLSearchParams();

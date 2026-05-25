@@ -19,6 +19,11 @@ export function registerEventRespond(server: McpServer, config: Config): void {
 			title: 'Respond to event',
 			description: 'RSVP to a calendar event invitation (accept, decline, or tentative)',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId, eventId, response, sendUpdates}) => {
 			// First get the event to find our attendee entry

@@ -26,6 +26,11 @@ export function registerCalendarlistUpdate(server: McpServer, config: Config): v
 			title: 'Update calendar settings',
 			description: 'Update user-specific settings for a calendar (color, visibility, reminders, custom name).',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId, colorId, backgroundColor, foregroundColor, hidden, selected, summaryOverride, defaultReminders}) => {
 			const body: Record<string, unknown> = {};

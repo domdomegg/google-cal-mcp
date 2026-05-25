@@ -19,6 +19,11 @@ export function registerEventMove(server: McpServer, config: Config): void {
 			title: 'Move event',
 			description: 'Move an event to a different calendar. Changes the event organizer. Only works for default events (not birthday, focusTime, etc.).',
 			inputSchema,
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				idempotentHint: true,
+			},
 		},
 		async ({calendarId, eventId, destination, sendUpdates}) => {
 			const params = new URLSearchParams();
